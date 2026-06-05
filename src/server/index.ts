@@ -2,11 +2,11 @@ import { Hono } from 'hono'
 
 const app = new Hono().basePath('/api')
 
-app.get('/api/health', (c) => {
+app.get('/health', (c) => {
   return c.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
-app.get('/api/modes', (c) => {
+app.get('/modes', (c) => {
   return c.json({
     modes: [
       {
