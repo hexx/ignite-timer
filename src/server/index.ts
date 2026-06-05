@@ -1,12 +1,12 @@
 import { Hono } from 'hono'
 
-const app = new Hono().basePath('/api')
+const app = new Hono()
 
-app.get('/health', (c) => {
+app.get('/api/health', (c) => {
   return c.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
-app.get('/modes', (c) => {
+app.get('/api/modes', (c) => {
   return c.json({
     modes: [
       {
