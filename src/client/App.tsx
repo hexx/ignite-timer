@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FiveSecondRule } from './components/FiveSecondRule'
 import { TwoMinuteRule } from './components/TwoMinuteRule'
 import { TenMinuteRule } from './components/TenMinuteRule'
@@ -6,14 +6,58 @@ import './App.css'
 
 type Mode = 'five-second' | 'two-minute' | 'ten-minute'
 
-const modes: { id: Mode; label: string; emoji: string }[] = [
-  { id: 'five-second', label: '5秒ルール', emoji: '⚡' },
-  { id: 'two-minute', label: '2分間ルール', emoji: '🏃' },
-  { id: 'ten-minute', label: '10分間ルール', emoji: '🔥' },
-]
+interface ModeInfo {
+  id: Mode
+  label: string
+  emoji: string
+}
 
 function App() {
   const [activeMode, setActiveMode] = useState<Mode>('five-second')
+  const [modes, setModes] = useState<ModeInfo[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchModes = async () => {
+      try {
+        const response = await fetch('/api/modes')
+        if (!response.ok) {
+          throw new Error('モード情報の取得に失敗しました')
+        }
+        const data = await response.json()
+        setModes(data.modes)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : '予期しないエラーが発生しました')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchModes()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="app">
+        <header className="app-header">
+          <h1>🔥 Ignite Timer</h1>
+          <p>読み込み中...</p>
+        </header>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="app">
+        <header className="app-header">
+          <h1>🔥 Ignite Timer</h1>
+          <p className="error-message">エラー: {error}</p>
+        </header>
+      </div>
+    )
+  }
 
   return (
     <div className="app">

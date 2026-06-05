@@ -253,3 +253,10 @@ body {
   line-height: 1.5;
   margin-bottom: 0.5rem;
 }
+
+/* Error Message */
+.error-message {
+  color: #ff8888;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
