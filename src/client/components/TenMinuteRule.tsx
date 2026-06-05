@@ -72,7 +72,7 @@ export function TenMinuteRule() {
         {state === 'completed' && showChoice && (
           <div className="choice-container" data-testid="choice-container">
             <p className="choice-question">
-              🎉 10分間お疲れ様！続けますか？（オープン・ループを------持しよう）
+              🎉 10分間お疲れ様！続けますか？（オープン・ループを維持しよう）
             </p>
             <button
               className="btn btn-primary"
