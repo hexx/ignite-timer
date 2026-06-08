@@ -7,3 +7,4 @@ playwright-report/
 .env.local
 *.local
 copilot-session-*
+.pi/
