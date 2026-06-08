@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxlint/main/npm/oxlint/configuration_schema.json",
+  "rules": {
+    "filename-case": "off",
+    "func-style": "off",
+    "explicit-function-return-type": "off",
+    "explicit-module-boundary-types": "off",
+    "no-magic-numbers": "off",
+    "sort-keys": "off",
+    "sort-imports": "off",
+    "max-lines-per-function": "off",
+    "max-statements": "off",
+    "id-length": "off",
+    "no-ternary": "off",
+    "no-negated-condition": "off",
+    "no-empty-function": "off",
+    "no-console": "off",
+    "no-async-await": "off",
+    "no-optional-chaining": "off",
+    "no-non-null-assertion": "off",
+    "no-null": "off",
+    "catch-error-name": "off",
+    "consistent-function-scoping": "off",
+    "prefer-query-selector": "off",
+    "prefer-global-this": "off",
+    "no-explicit-any": "off",
+    "curly": "off",
+    "arrow-body-style": "off"
+  }
+}
