@@ -1,4 +1,7 @@
 import { useTimer } from '../hooks/useTimer'
+import { Button } from './ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card'
+import { Progress } from './ui/progress'
 
 export function TwoMinuteRule() {
   const { timeLeft, state, progress, start, pause, resume, reset } = useTimer({
@@ -7,62 +10,72 @@ export function TwoMinuteRule() {
   })
 
   const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60)
-    const s = seconds % 60
-    return `${m}:${s.toString().padStart(2, '0')}`
+    const minutes = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${minutes}:${secs.toString().padStart(2, '0')}`
   }
 
   return (
-    <div className="timer-card two-minute" data-testid="two-minute-timer">
-      <h2 className="timer-title">🏃 2分間ルール</h2>
-      <p className="timer-description">
-        The 2-Minute Rule: とりあえず手を動かそう（ゲートウェイ・ハビット）
-      </p>
-      <div className="time-display" data-testid="time-display">
-        <span className="time-number">{formatTime(timeLeft)}</span>
-      </div>
-      <div className="progress-container" data-testid="progress-container">
+    <Card data-testid="two-minute-timer">
+      <CardHeader>
+        <CardTitle>🏃 2分間ルール</CardTitle>
+        <CardDescription>
+          The 2-Minute Rule: とりあえず手を動かそう（ゲートウェイ・ハビット）
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center gap-4">
         <div
-          className="progress-bar"
-          style={{ width: `${progress}%` }}
-          data-testid="progress-bar"
-          role="progressbar"
-          aria-valuenow={progress}
-          aria-valuemin={0}
-          aria-valuemax={100}
-        />
-      </div>
-      <p className="progress-label">{Math.round(progress)}% 完了</p>
-      <div className="timer-controls">
-        {state === 'idle' && (
-          <button className="btn btn-primary" onClick={start} data-testid="start-btn">
-            スタート
-          </button>
-        )}
-        {state === 'running' && (
-          <button className="btn btn-secondary" onClick={pause} data-testid="pause-btn">
-            一時停止
-          </button>
-        )}
-        {state === 'paused' && (
-          <>
-            <button className="btn btn-primary" onClick={resume} data-testid="resume-btn">
-              再開
-            </button>
-            <button className="btn btn-danger" onClick={reset} data-testid="reset-btn">
-              リセット
-            </button>
-          </>
-        )}
-        {state === 'completed' && (
-          <div className="completed-message" data-testid="completed-message">
-            <p>✅ 2分間お疲れ様でした！行動を開始した事実を作れました！</p>
-            <button className="btn btn-secondary" onClick={reset} data-testid="reset-btn">
-              もう一度
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+          className="text-6xl font-bold tabular-nums"
+          data-testid="time-display"
+        >
+          {formatTime(timeLeft)}
+        </div>
+        <div className="w-full" data-testid="progress-container">
+          <Progress
+            value={progress}
+            data-testid="progress-bar"
+            role="progressbar"
+            aria-valuenow={progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          />
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            {Math.round(progress)}% 完了
+          </p>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          {state === 'idle' && (
+            <Button onClick={start} data-testid="start-btn">
+              スタート
+            </Button>
+          )}
+          {state === 'running' && (
+            <Button variant="outline" onClick={pause} data-testid="pause-btn">
+              一時停止
+            </Button>
+          )}
+          {state === 'paused' && (
+            <div className="flex gap-2">
+              <Button onClick={resume} data-testid="resume-btn">
+                再開
+              </Button>
+              <Button variant="destructive" onClick={reset} data-testid="reset-btn">
+                リセット
+              </Button>
+            </div>
+          )}
+          {state === 'completed' && (
+            <div className="flex flex-col items-center gap-2" data-testid="completed-message">
+              <p className="text-green-500">
+                ✅ 2分間お疲れ様でした！行動を開始した事実を作れました！
+              </p>
+              <Button variant="outline" onClick={reset} data-testid="reset-btn">
+                もう一度
+              </Button>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   )
 }
