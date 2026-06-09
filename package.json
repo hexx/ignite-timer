@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240524.0",
-    "@hono/vite-dev-server": "^0.14.0",
+    "@hono/vite-dev-server": "^0.26.0",
     "@playwright/test": "^1.44.0",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^16.0.0",
