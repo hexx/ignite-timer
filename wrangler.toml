@@ -1,3 +1,7 @@
 name = "ignite-timer"
 compatibility_date = "2024-05-24"
-pages_build_output_dir = "dist"
+main = "src/server/index.ts"
+
+[assets]
+directory = "dist"
+binding = "ASSETS"
