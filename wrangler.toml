@@ -4,4 +4,3 @@ main = "src/server/index.ts"
 
 [assets]
 directory = "dist"
-binding = "ASSETS"

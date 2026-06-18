@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import devServer from '@hono/vite-dev-server'
-import cloudflareAdapter from '@hono/vite-dev-server/cloudflare'
+import adapter from '@hono/vite-dev-server/cloudflare'
 import path from 'path'
 
 export default defineConfig({
@@ -12,7 +12,7 @@ export default defineConfig({
     tailwindcss(),
     devServer({
       entry: './src/server/index.ts',
-      adapter: cloudflareAdapter,
+      adapter: adapter,
     }),
   ],
   root: '.',
