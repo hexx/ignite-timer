@@ -12,10 +12,9 @@ export default defineConfig({
     tailwindcss(),
     devServer({
       entry: './src/server/index.ts',
-      adapter: adapter,
+      adapter,
     }),
   ],
-  root: '.',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src/client'),

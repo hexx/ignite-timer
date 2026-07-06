@@ -2,18 +2,12 @@ import { useTimer } from '../hooks/useTimer'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card'
 import { Progress } from './ui/progress'
+import { formatTime } from '../lib/utils'
 
 export function TwoMinuteRule() {
   const { timeLeft, state, progress, start, pause, resume, reset } = useTimer({
     duration: 120,
-    onComplete: () => {},
   })
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${minutes}:${secs.toString().padStart(2, '0')}`
-  }
 
   return (
     <Card data-testid="two-minute-timer">

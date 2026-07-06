@@ -6,7 +6,6 @@ import { cn } from '../lib/utils'
 export function FiveSecondRule() {
   const { timeLeft, state, start, reset } = useTimer({
     duration: 5,
-    onComplete: () => {},
   })
 
   const getUrgencyClass = () => {

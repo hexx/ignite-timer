@@ -3,6 +3,7 @@ import { useTimer } from '../hooks/useTimer'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card'
 import { Progress } from './ui/progress'
+import { formatTime } from '../lib/utils'
 
 export function TenMinuteRule() {
   const [showChoice, setShowChoice] = useState(false)
@@ -13,12 +14,6 @@ export function TenMinuteRule() {
       setShowChoice(true)
     },
   })
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${minutes}:${secs.toString().padStart(2, '0')}`
-  }
 
   const handleContinue = () => {
     setShowChoice(false)
