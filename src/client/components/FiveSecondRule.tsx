@@ -9,9 +9,9 @@ export function FiveSecondRule() {
   })
 
   const getUrgencyClass = () => {
-    if (state === 'completed') return 'text-primary'
-    if (timeLeft <= 2) return 'text-destructive'
-    if (timeLeft <= 4) return 'text-yellow-500'
+    if (state === 'completed') { return 'text-primary' }
+    if (timeLeft <= 2) { return 'text-destructive' }
+    if (timeLeft <= 4) { return 'text-yellow-500' }
     return 'text-green-500'
   }
 
