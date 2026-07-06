@@ -17,8 +17,6 @@ export interface UseTimerReturn {
   reset: () => void
 }
 
-const originalTitle = typeof document !== 'undefined' ? document.title : 'Ignite Timer'
-
 function formatTimeForTitle(seconds: number): string {
   const m = Math.floor(seconds / 60)
   const s = seconds % 60
@@ -27,7 +25,8 @@ function formatTimeForTitle(seconds: number): string {
 
 function playCompletionSound(): void {
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const AudioContextClass = window.AudioContext
+    const audioContext = new AudioContextClass()
     const oscillator = audioContext.createOscillator()
     const gainNode = audioContext.createGain()
 
@@ -44,6 +43,10 @@ function playCompletionSound(): void {
 
     oscillator.start(audioContext.currentTime)
     oscillator.stop(audioContext.currentTime + 0.5)
+
+    oscillator.onended = () => {
+      audioContext.close()
+    }
   } catch (e) {
     console.warn('Failed to play completion sound:', e)
   }
@@ -54,6 +57,7 @@ export function useTimer({ duration, onComplete }: UseTimerOptions): UseTimerRet
   const [state, setState] = useState<TimerState>('idle')
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const onCompleteRef = useRef(onComplete)
+  const titleRef = useRef(typeof document !== 'undefined' ? document.title : 'Ignite Timer')
 
   useEffect(() => {
     onCompleteRef.current = onComplete
@@ -71,25 +75,24 @@ export function useTimer({ duration, onComplete }: UseTimerOptions): UseTimerRet
     }
   }, [])
 
+  // Sync document title
   useEffect(() => {
     if (state === 'running') {
+      titleRef.current = document.title
       document.title = `${formatTimeForTitle(timeLeft)} | Ignite Timer`
     } else if (state === 'completed') {
       document.title = `完了! | Ignite Timer`
     } else {
-      document.title = originalTitle
+      document.title = titleRef.current
     }
   }, [state, timeLeft])
 
+  // Timer tick
   useEffect(() => {
     if (state === 'running') {
       intervalRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
-            clearTimer()
-            setState('completed')
-            playCompletionSound()
-            onCompleteRef.current?.()
             return 0
           }
           return prev - 1
@@ -98,6 +101,22 @@ export function useTimer({ duration, onComplete }: UseTimerOptions): UseTimerRet
     }
     return clearTimer
   }, [state, clearTimer])
+
+  // Handle completion (separated from the tick for clean side effects)
+  useEffect(() => {
+    if (state === 'running' && timeLeft <= 0) {
+      clearTimer()
+      setState('completed')
+    }
+  }, [timeLeft, state, clearTimer])
+
+  // Fire completion side effects
+  useEffect(() => {
+    if (state === 'completed') {
+      playCompletionSound()
+      onCompleteRef.current?.()
+    }
+  }, [state])
 
   const start = useCallback(() => {
     setTimeLeft(duration)
