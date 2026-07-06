@@ -47,8 +47,9 @@ function playCompletionSound(): void {
     oscillator.onended = () => {
       audioContext.close()
     }
-  } catch (e) {
-    console.warn('Failed to play completion sound:', e)
+  } catch (error) {
+    // eslint-disable-next-line no-console -- intentional error logging for audio playback failure
+    console.warn('Failed to play completion sound:', error)
   }
 }
 
